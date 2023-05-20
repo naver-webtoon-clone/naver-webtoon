@@ -32,7 +32,7 @@ public class EpisodeService {
         boolean isPublic = request.getIsPublic();
         int neededCookieAmount = request.getNeededCookieAmount();
         throwIfFreeForPrivateEpisode(isPublic, neededCookieAmount);
-        throwIfPaidForFreeEpisode(isPublic, neededCookieAmount);
+        throwIfPaidForPublicEpisode(isPublic, neededCookieAmount);
 
         LocalDate freeReleaseDate = request.getFreeReleaseDate();
         throwIfFreeReleaseDateEnteredForPublicEpisode(isPublic, freeReleaseDate);
@@ -53,7 +53,7 @@ public class EpisodeService {
         }
     }
 
-    private void throwIfPaidForFreeEpisode(boolean isPublic, int neededCookieAmount) {
+    private void throwIfPaidForPublicEpisode(boolean isPublic, int neededCookieAmount) {
         boolean isFree = (neededCookieAmount == AMOUNT_OF_PUBLIC_EPISODE_COOKIE);
         if (isPublic && !isFree) {
             throw new WebtoonException(PUBLIC_EPISODE_MUST_BE_FREE);
