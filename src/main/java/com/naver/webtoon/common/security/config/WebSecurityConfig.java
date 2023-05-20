@@ -38,6 +38,7 @@ public class WebSecurityConfig {
 
         http.authorizeRequests().
                 antMatchers("/api/auth/**").permitAll().
+                antMatchers("/api/webtoon/**").permitAll().
                 anyRequest().authenticated().
                 and().
                 addFilterBefore(new JwtAuthenticationFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class).

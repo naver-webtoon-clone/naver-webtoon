@@ -19,7 +19,7 @@ public class Author extends Timestamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "webtoon_id")
+    @Column(name = "author_id")
     private Long id;
 
     @Column(nullable = false)

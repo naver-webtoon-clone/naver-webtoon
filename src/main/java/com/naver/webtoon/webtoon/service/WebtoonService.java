@@ -3,6 +3,7 @@ package com.naver.webtoon.webtoon.service;
 import com.naver.webtoon.common.exception.WebtoonException;
 import com.naver.webtoon.webtoon.dto.request.WebtoonRegisterRequest;
 import com.naver.webtoon.webtoon.dto.request.WebtoonUpdateRequest;
+import com.naver.webtoon.webtoon.dto.response.WebtoonInfoListResponse;
 import com.naver.webtoon.webtoon.entity.Author;
 import com.naver.webtoon.webtoon.entity.HashTag;
 import com.naver.webtoon.webtoon.entity.PublishingDay;
@@ -18,8 +19,11 @@ import com.naver.webtoon.webtoon.repository.WebtoonHashTagRepository;
 import com.naver.webtoon.webtoon.repository.WebtoonPublishingDayRepository;
 import com.naver.webtoon.webtoon.repository.WebtoonRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static com.naver.webtoon.common.exception.ErrorCode.NOT_FOUND_AUTHOR;
 import static com.naver.webtoon.common.exception.ErrorCode.NOT_FOUND_HASH_TAG;
@@ -125,7 +129,42 @@ public class WebtoonService {
     public void deleteWebtoon(Long webtoonId) {
         Webtoon webtoon = webtoonRepository.findById(webtoonId).orElseThrow(
                 () -> new WebtoonException(NOT_FOUND_WEBTOON));
-
+        webtoonHashTagRepository.deleteByWebtoonId(webtoon.getId());
+        webtoonPublishingDayRepository.deleteByWebtoonId(webtoon.getId());
         webtoonRepository.delete(webtoon);
+    }
+
+    //조회수 생성되는 대로 repository메소드 변경 필요.
+    @Transactional(readOnly = true)
+    public WebtoonInfoListResponse getPopularWebtoonsByDayOfWeekAndWithin30Days(String publishingDay){
+        DayOfTheWeek dayOfTheWeek = DayOfTheWeek.toEnum(publishingDay);
+        List<Webtoon> webtoons = webtoonRepository.findOnGoingWebtoonByDayOfTheWeek(dayOfTheWeek);
+        return WebtoonInfoListResponse.toResponse(webtoons);
+    }
+
+    @Transactional(readOnly = true)
+    //@Cacheable(value = "lastestUpdate")
+    public WebtoonInfoListResponse getlastestUpdateWebtoonsByDayOfWeek(String publishingDay){
+        DayOfTheWeek dayOfTheWeek = DayOfTheWeek.toEnum(publishingDay);
+        List<Webtoon> webtoons = webtoonRepository.findOnGoingWebtoonByDayOfTheWeekOrderByLastedUpdate(dayOfTheWeek);
+        return WebtoonInfoListResponse.toResponse(webtoons);
+    }
+
+    //조회수 생성되는 대로 repository메소드 변경 필요.
+    @Transactional(readOnly = true)
+    //@Cacheable(value = "lastestUpdate")
+    public WebtoonInfoListResponse getTotalViewsWebtoonsByDayOfWeek(String publishingDay){
+        DayOfTheWeek dayOfTheWeek = DayOfTheWeek.toEnum(publishingDay);
+        List<Webtoon> webtoons = webtoonRepository.findOnGoingWebtoonByDayOfTheWeek(dayOfTheWeek);
+        return WebtoonInfoListResponse.toResponse(webtoons);
+    }
+
+
+    @Transactional(readOnly = true)
+    //@Cacheable(value = "lastestUpdate")
+    public WebtoonInfoListResponse getTopRatedWebtoonsByDayOfWeek(String publishingDay){
+        DayOfTheWeek dayOfTheWeek = DayOfTheWeek.toEnum(publishingDay);
+        List<Webtoon> webtoons = webtoonRepository.findOnGoingWebtoonByDayOfTheWeek(dayOfTheWeek);
+        return WebtoonInfoListResponse.toResponse(webtoons);
     }
 }
