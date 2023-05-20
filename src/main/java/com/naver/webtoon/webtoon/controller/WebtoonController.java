@@ -35,16 +35,22 @@ public class WebtoonController {
         return new ResponseEntity<>(new SuccessMessage<>("웹툰삭제성공",null), HttpStatus.OK);
     }
 
+    //인기순 -> api를 실행하는 기준으로 30일안에 조회수가 많은 순서대로 조회
     @GetMapping("/webtoon/{publishingDay}/popular")
-    public ResponseEntity<SuccessMessage<WebtoonInfoListResponse>> getPopularWebtoonsByDayOfWeek(@PathVariable String publishingDay) {
-        WebtoonInfoListResponse response = webtoonService.getPopularWebtoonsByDayOfWeek(publishingDay);
+    public ResponseEntity<SuccessMessage<WebtoonInfoListResponse>> getPopularWebtoonsByDayOfWeekAndWithin30Days(@PathVariable String publishingDay) {
+        WebtoonInfoListResponse response = webtoonService.getPopularWebtoonsByDayOfWeekAndWithin30Days(publishingDay);
         return new ResponseEntity<>(new SuccessMessage<>("요일별인기순웹툰조회성공",response), HttpStatus.OK);
     }
 
-    //요일별업데이트순웹툰조회
     @GetMapping("/webtoon/{publishingDay}/latest-update")
     public ResponseEntity<SuccessMessage<WebtoonInfoListResponse>> getlastestUpdateWebtoonsByDayOfWeek(@PathVariable String publishingDay) {
         WebtoonInfoListResponse response = webtoonService.getlastestUpdateWebtoonsByDayOfWeek(publishingDay);
         return new ResponseEntity<>(new SuccessMessage<>("요일별업데이트순웹툰조회",response), HttpStatus.OK);
+    }
+
+    @GetMapping("/webtoon/{publishingDay}/total-views")
+    public ResponseEntity<SuccessMessage<WebtoonInfoListResponse>> getTotalViewsWebtoonsByDayOfWeek(@PathVariable String publishingDay) {
+        WebtoonInfoListResponse response = webtoonService.getTotalViewsWebtoonsByDayOfWeek(publishingDay);
+        return new ResponseEntity<>(new SuccessMessage<>("요일별조회순웹툰조회",response), HttpStatus.OK);
     }
 }
