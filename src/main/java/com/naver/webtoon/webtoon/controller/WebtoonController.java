@@ -53,4 +53,11 @@ public class WebtoonController {
         WebtoonInfoListResponse response = webtoonService.getTotalViewsWebtoonsByDayOfWeek(publishingDay);
         return new ResponseEntity<>(new SuccessMessage<>("요일별조회순웹툰조회",response), HttpStatus.OK);
     }
+
+    //에피소드의 별점 테이블 생성 후 기능 수정 필요.
+    @GetMapping("/webtoon/{publishingDay}/highest-stars")
+    public ResponseEntity<SuccessMessage<WebtoonInfoListResponse>> getTopRatedWebtoonsByDayOfWeek(@PathVariable String publishingDay) {
+        WebtoonInfoListResponse response = webtoonService.getTopRatedWebtoonsByDayOfWeek(publishingDay);
+        return new ResponseEntity<>(new SuccessMessage<>("요일별별점순웹툰조회",response), HttpStatus.OK);
+    }
 }

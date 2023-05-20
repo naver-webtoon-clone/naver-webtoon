@@ -155,7 +155,16 @@ public class WebtoonService {
     //@Cacheable(value = "lastestUpdate")
     public WebtoonInfoListResponse getTotalViewsWebtoonsByDayOfWeek(String publishingDay){
         DayOfTheWeek dayOfTheWeek = DayOfTheWeek.toEnum(publishingDay);
-        List<Webtoon> webtoons = webtoonRepository.findOnGoingWebtoonByDayOfTheWeekOrderByLastedUpdate(dayOfTheWeek);
+        List<Webtoon> webtoons = webtoonRepository.findOnGoingWebtoonByDayOfTheWeek(dayOfTheWeek);
+        return WebtoonInfoListResponse.toResponse(webtoons);
+    }
+
+
+    @Transactional(readOnly = true)
+    //@Cacheable(value = "lastestUpdate")
+    public WebtoonInfoListResponse getTopRatedWebtoonsByDayOfWeek(String publishingDay){
+        DayOfTheWeek dayOfTheWeek = DayOfTheWeek.toEnum(publishingDay);
+        List<Webtoon> webtoons = webtoonRepository.findOnGoingWebtoonByDayOfTheWeek(dayOfTheWeek);
         return WebtoonInfoListResponse.toResponse(webtoons);
     }
 }
