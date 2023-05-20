@@ -31,8 +31,8 @@ public class WebtoonInfo {
     }
 
     public static WebtoonInfo toList(Webtoon webtoon){
-        Boolean isUpdatedToday = TimeUtils.validateUpdatedToday(webtoon.getUpdatedAt());
-        Boolean isNew = TimeUtils.validateNewWebtoon(webtoon.getCreatedAt());
+        Boolean isUpdatedToday = TimeUtils.isUpdatedWithin24Hours(webtoon.getUpdatedAt());
+        Boolean isNew = TimeUtils.isNewlyRegisteredWithin30Days(webtoon.getCreatedAt());
         Boolean isPause = (webtoon.getSerializedStatus() == BREAK);
         Float webtoonStarRating = 0.0F;
 
