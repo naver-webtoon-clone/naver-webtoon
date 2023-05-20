@@ -23,7 +23,7 @@ public class PublishingDay extends Timestamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "publish_day_id")
+    @Column(name = "publishing_day_id")
     private Long id;
 
     @Column(nullable = false)

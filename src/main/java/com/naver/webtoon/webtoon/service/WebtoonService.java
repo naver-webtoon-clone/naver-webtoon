@@ -3,6 +3,7 @@ package com.naver.webtoon.webtoon.service;
 import com.naver.webtoon.common.exception.WebtoonException;
 import com.naver.webtoon.webtoon.dto.request.WebtoonRegisterRequest;
 import com.naver.webtoon.webtoon.dto.request.WebtoonUpdateRequest;
+import com.naver.webtoon.webtoon.dto.response.WebtoonInfoListResponse;
 import com.naver.webtoon.webtoon.entity.Author;
 import com.naver.webtoon.webtoon.entity.HashTag;
 import com.naver.webtoon.webtoon.entity.PublishingDay;
@@ -20,6 +21,8 @@ import com.naver.webtoon.webtoon.repository.WebtoonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static com.naver.webtoon.common.exception.ErrorCode.NOT_FOUND_AUTHOR;
 import static com.naver.webtoon.common.exception.ErrorCode.NOT_FOUND_HASH_TAG;
@@ -128,5 +131,12 @@ public class WebtoonService {
         webtoonHashTagRepository.deleteByWebtoonId(webtoon.getId());
         webtoonPublishingDayRepository.deleteByWebtoonId(webtoon.getId());
         webtoonRepository.delete(webtoon);
+    }
+
+    @Transactional(readOnly = true)
+    public WebtoonInfoListResponse getPopularWebtoonsByDayOfWeek(String publishingDay){
+        DayOfTheWeek dayOfTheWeek = DayOfTheWeek.toEnum(publishingDay);
+        List<Webtoon> webtoons = webtoonRepository.findOnGoingWebtoonByDayOfTheWeek(dayOfTheWeek);
+        return WebtoonInfoListResponse.toResponse(webtoons);
     }
 }
