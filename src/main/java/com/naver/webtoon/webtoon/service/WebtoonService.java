@@ -19,6 +19,7 @@ import com.naver.webtoon.webtoon.repository.WebtoonHashTagRepository;
 import com.naver.webtoon.webtoon.repository.WebtoonPublishingDayRepository;
 import com.naver.webtoon.webtoon.repository.WebtoonRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -137,6 +138,14 @@ public class WebtoonService {
     public WebtoonInfoListResponse getPopularWebtoonsByDayOfWeek(String publishingDay){
         DayOfTheWeek dayOfTheWeek = DayOfTheWeek.toEnum(publishingDay);
         List<Webtoon> webtoons = webtoonRepository.findOnGoingWebtoonByDayOfTheWeek(dayOfTheWeek);
+        return WebtoonInfoListResponse.toResponse(webtoons);
+    }
+
+    @Transactional(readOnly = true)
+    //@Cacheable(value = "lastestUpdate")
+    public WebtoonInfoListResponse getlastestUpdateWebtoonsByDayOfWeek(String publishingDay){
+        DayOfTheWeek dayOfTheWeek = DayOfTheWeek.toEnum(publishingDay);
+        List<Webtoon> webtoons = webtoonRepository.findOnGoingWebtoonByDayOfTheWeekOrderByLastedUpdate(dayOfTheWeek);
         return WebtoonInfoListResponse.toResponse(webtoons);
     }
 }

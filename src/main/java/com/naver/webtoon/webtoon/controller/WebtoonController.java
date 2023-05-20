@@ -40,4 +40,11 @@ public class WebtoonController {
         WebtoonInfoListResponse response = webtoonService.getPopularWebtoonsByDayOfWeek(publishingDay);
         return new ResponseEntity<>(new SuccessMessage<>("요일별인기순웹툰조회성공",response), HttpStatus.OK);
     }
+
+    //요일별업데이트순웹툰조회
+    @GetMapping("/webtoon/{publishingDay}/latest-update")
+    public ResponseEntity<SuccessMessage<WebtoonInfoListResponse>> getlastestUpdateWebtoonsByDayOfWeek(@PathVariable String publishingDay) {
+        WebtoonInfoListResponse response = webtoonService.getlastestUpdateWebtoonsByDayOfWeek(publishingDay);
+        return new ResponseEntity<>(new SuccessMessage<>("요일별업데이트순웹툰조회",response), HttpStatus.OK);
+    }
 }
