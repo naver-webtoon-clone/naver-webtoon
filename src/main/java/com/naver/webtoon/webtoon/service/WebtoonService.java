@@ -136,6 +136,7 @@ public class WebtoonService {
 
     //조회수 생성되는 대로 repository메소드 변경 필요.
     @Transactional(readOnly = true)
+    @Cacheable(value = "within30Days")
     public WebtoonInfoListResponse getPopularWebtoonsByDayOfWeekAndWithin30Days(String publishingDay){
         DayOfTheWeek dayOfTheWeek = DayOfTheWeek.toEnum(publishingDay);
         List<Webtoon> webtoons = webtoonRepository.findOnGoingWebtoonByDayOfTheWeek(dayOfTheWeek);
@@ -143,7 +144,7 @@ public class WebtoonService {
     }
 
     @Transactional(readOnly = true)
-    //@Cacheable(value = "lastestUpdate")
+    @Cacheable(value = "lastestUpdate")
     public WebtoonInfoListResponse getlastestUpdateWebtoonsByDayOfWeek(String publishingDay){
         DayOfTheWeek dayOfTheWeek = DayOfTheWeek.toEnum(publishingDay);
         List<Webtoon> webtoons = webtoonRepository.findOnGoingWebtoonByDayOfTheWeekOrderByLastedUpdate(dayOfTheWeek);
@@ -152,7 +153,7 @@ public class WebtoonService {
 
     //조회수 생성되는 대로 repository메소드 변경 필요.
     @Transactional(readOnly = true)
-    //@Cacheable(value = "lastestUpdate")
+    @Cacheable(value = "lastestUpdate")
     public WebtoonInfoListResponse getTotalViewsWebtoonsByDayOfWeek(String publishingDay){
         DayOfTheWeek dayOfTheWeek = DayOfTheWeek.toEnum(publishingDay);
         List<Webtoon> webtoons = webtoonRepository.findOnGoingWebtoonByDayOfTheWeek(dayOfTheWeek);
@@ -161,7 +162,7 @@ public class WebtoonService {
 
 
     @Transactional(readOnly = true)
-    //@Cacheable(value = "lastestUpdate")
+    @Cacheable(value = "lastestUpdate")
     public WebtoonInfoListResponse getTopRatedWebtoonsByDayOfWeek(String publishingDay){
         DayOfTheWeek dayOfTheWeek = DayOfTheWeek.toEnum(publishingDay);
         List<Webtoon> webtoons = webtoonRepository.findOnGoingWebtoonByDayOfTheWeek(dayOfTheWeek);
