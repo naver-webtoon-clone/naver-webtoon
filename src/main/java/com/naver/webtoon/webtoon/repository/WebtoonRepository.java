@@ -16,7 +16,6 @@ public interface WebtoonRepository extends JpaRepository<Webtoon, Long> {
             "OR wpd.webtoon.serializedStatus = 'SERIALIZED')")
     List<Webtoon> findOnGoingWebtoonByDayOfTheWeek(@Param("dayOfTheWeek")DayOfTheWeek dayOfTheWeek);
 
-
     @Query("SELECT wpd.webtoon FROM WebtoonPublishingDay wpd " +
             "JOIN wpd.publishingDay pd " +
             "WHERE pd.dayOfTheWeek = :dayOfTheWeek " +
