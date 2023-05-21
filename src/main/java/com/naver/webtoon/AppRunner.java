@@ -21,5 +21,14 @@ public class AppRunner implements CommandLineRunner {
 
         log.info("최근업데이트순웹툰조회");
         log.info("webtoonId : 1" + webtoonService.getlastestUpdateWebtoonsByDayOfWeek("MON"));
+
+        log.info("요일별조회순웹툰조회");
+        log.info("webtoonId : 1" + webtoonService.getTotalViewsWebtoonsByDayOfWeek("MON"));
+
+        log.info("요일별별점순웹툰조회");
+        log.info("webtoonId : 1" + webtoonService.getHigestStarsWebtoonsByDayOfWeek("MON"));
+
+        log.info("실시간인기웹툰조회성공");
+        log.info("webtoonId : 1" + webtoonService.getRealTimePopularWebtoons());
     }
 }
