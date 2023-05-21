@@ -24,4 +24,6 @@ public interface WebtoonRepository extends JpaRepository<Webtoon, Long> {
             "OR wpd.webtoon.serializedStatus = 'SERIALIZED')" +
             "ORDER BY wpd.webtoon.updatedAt DESC")
     List<Webtoon> findOnGoingWebtoonByDayOfTheWeekOrderByLastedUpdate(@Param("dayOfTheWeek")DayOfTheWeek dayOfTheWeek);
+
+    List<Webtoon> findAll();
 }

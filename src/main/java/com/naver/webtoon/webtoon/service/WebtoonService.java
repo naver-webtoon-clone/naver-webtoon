@@ -3,6 +3,7 @@ package com.naver.webtoon.webtoon.service;
 import com.naver.webtoon.common.exception.WebtoonException;
 import com.naver.webtoon.webtoon.dto.request.WebtoonRegisterRequest;
 import com.naver.webtoon.webtoon.dto.request.WebtoonUpdateRequest;
+import com.naver.webtoon.webtoon.dto.response.RealTimePopularWebtoonInfoResponse;
 import com.naver.webtoon.webtoon.dto.response.WebtoonInfoListResponse;
 import com.naver.webtoon.webtoon.entity.Author;
 import com.naver.webtoon.webtoon.entity.HashTag;
@@ -153,7 +154,7 @@ public class WebtoonService {
 
     //조회수 생성되는 대로 repository메소드 변경 필요.
     @Transactional(readOnly = true)
-    @Cacheable(value = "lastestUpdate")
+    @Cacheable(value = "totalViews")
     public WebtoonInfoListResponse getTotalViewsWebtoonsByDayOfWeek(String publishingDay){
         DayOfTheWeek dayOfTheWeek = DayOfTheWeek.toEnum(publishingDay);
         List<Webtoon> webtoons = webtoonRepository.findOnGoingWebtoonByDayOfTheWeek(dayOfTheWeek);
@@ -162,10 +163,18 @@ public class WebtoonService {
 
 
     @Transactional(readOnly = true)
-    @Cacheable(value = "lastestUpdate")
-    public WebtoonInfoListResponse getTopRatedWebtoonsByDayOfWeek(String publishingDay){
+    @Cacheable(value = "higestStars")
+    public WebtoonInfoListResponse getHigestStarsWebtoonsByDayOfWeek(String publishingDay){
         DayOfTheWeek dayOfTheWeek = DayOfTheWeek.toEnum(publishingDay);
         List<Webtoon> webtoons = webtoonRepository.findOnGoingWebtoonByDayOfTheWeek(dayOfTheWeek);
         return WebtoonInfoListResponse.toResponse(webtoons);
+    }
+
+    //30일동안 웹툰의 조회수가 많은 순서대로 내림차순으로 return해주는 메소드 repository에서 처리 필요.
+    @Transactional(readOnly = true)
+    @Cacheable(value = "realTimePopular")
+    public RealTimePopularWebtoonInfoResponse getRealTimePopularWebtoons(){
+        List<Webtoon> webtoons = webtoonRepository.findAll();
+        return RealTimePopularWebtoonInfoResponse.toRealTimeResponse(webtoons);
     }
 }
