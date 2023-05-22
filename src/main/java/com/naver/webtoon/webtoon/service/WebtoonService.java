@@ -135,7 +135,7 @@ public class WebtoonService {
         webtoonRepository.delete(webtoon);
     }
 
-    //조회수 생성되는 대로 repository메소드 변경 필요.
+    //TODO: 조회수 생성되는 대로 repository메소드 변경 필요.
     @Transactional(readOnly = true)
     @Cacheable(value = "within30Days")
     public WebtoonInfoListResponse getPopularWebtoonsByDayOfWeekAndWithin30Days(String publishingDay){
@@ -152,7 +152,7 @@ public class WebtoonService {
         return WebtoonInfoListResponse.toResponse(webtoons);
     }
 
-    //조회수 생성되는 대로 repository메소드 변경 필요.
+    //TODO: 조회수 생성되는 대로 repository메소드 변경 필요.
     @Transactional(readOnly = true)
     @Cacheable(value = "totalViews")
     public WebtoonInfoListResponse getTotalViewsWebtoonsByDayOfWeek(String publishingDay){
@@ -170,7 +170,7 @@ public class WebtoonService {
         return WebtoonInfoListResponse.toResponse(webtoons);
     }
 
-    //30일동안 웹툰의 조회수가 많은 순서대로 내림차순으로 return해주는 메소드 repository에서 처리 필요.
+    //TODO: 30일동안 웹툰의 조회수가 많은 순서대로 내림차순으로 return해주는 메소드 repository에서 처리 필요.
     @Transactional(readOnly = true)
     @Cacheable(value = "realTimePopular")
     public RealTimePopularWebtoonInfoResponse getRealTimePopularWebtoons(){
