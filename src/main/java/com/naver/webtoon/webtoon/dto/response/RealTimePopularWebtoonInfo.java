@@ -1,4 +1,4 @@
-정package com.naver.webtoon.webtoon.dto.response;
+package com.naver.webtoon.webtoon.dto.response;
 
 import com.naver.webtoon.common.time.TimeUtils;
 import com.naver.webtoon.webtoon.entity.Webtoon;
@@ -31,6 +31,7 @@ public class RealTimePopularWebtoonInfo {
 
     public static RealTimePopularWebtoonInfo toList(Webtoon webtoon){
         Boolean isUpdatedToday = TimeUtils.isUpdatedWithin24Hours(webtoon.getUpdatedAt());
+        //TODO: webtoonStarRating 내용 임의의 수 후에 수정 필요.
         Float webtoonStarRating = 0.0F;
 
         return RealTimePopularWebtoonInfo.builder()
