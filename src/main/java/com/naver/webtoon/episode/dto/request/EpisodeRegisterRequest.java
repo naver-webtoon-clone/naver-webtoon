@@ -1,4 +1,4 @@
-package com.naver.webtoon.episode.dto;
+package com.naver.webtoon.episode.dto.request;
 
 import com.naver.webtoon.episode.entity.Episode;
 import com.naver.webtoon.webtoon.entity.Webtoon;
