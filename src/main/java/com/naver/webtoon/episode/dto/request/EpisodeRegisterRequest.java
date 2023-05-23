@@ -2,6 +2,7 @@ package com.naver.webtoon.episode.dto;
 
 import com.naver.webtoon.episode.entity.Episode;
 import com.naver.webtoon.webtoon.entity.Webtoon;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +10,7 @@ import javax.validation.constraints.Min;
 import java.time.LocalDate;
 
 @Getter
+@AllArgsConstructor
 @NoArgsConstructor
 public class EpisodeRegisterRequest {
 
