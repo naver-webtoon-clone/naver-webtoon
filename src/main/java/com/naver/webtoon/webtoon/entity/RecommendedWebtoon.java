@@ -19,12 +19,19 @@ public class RecommendedWebtoon extends Timestamped {
     @Column(name = "recommended_webtoon_id")
     private Long id;
 
-    @OneToMany(mappedBy = "recommendedWebtoon")
-    List<Webtoon> webtoons = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "webtoon_id")
+    private Webtoon webtoon;
 
     @Builder
-    public RecommendedWebtoon(Long id){
+    public RecommendedWebtoon(Long id, Webtoon webtoon){
         this.id = id;
+        this.webtoon = webtoon;
     }
 
+    public static RecommendedWebtoon createRecommendedWebtoon(Webtoon webtoon){
+        return RecommendedWebtoon.builder()
+                .webtoon(webtoon)
+                .build();
+    }
 }

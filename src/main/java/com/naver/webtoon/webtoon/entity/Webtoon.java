@@ -36,10 +36,6 @@ public class Webtoon extends Timestamped {
     @JoinColumn(name="author_id")
     private Author author;
 
-    @ManyToOne
-    @JoinColumn(name = "recommended_webtoon_id")
-    private RecommendedWebtoon recommendedWebtoon;
-
     @Builder
     public Webtoon(Long id, String title, String thumbnail, String description, SerializedStatus serializedStatus, Author author) {
         this.id = id;
