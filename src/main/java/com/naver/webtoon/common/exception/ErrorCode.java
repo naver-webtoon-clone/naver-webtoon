@@ -41,6 +41,10 @@ public enum ErrorCode {
 
     NOT_FOUND_COMMENT(HttpStatus.NOT_FOUND, "COMMENT_001", "찾을 수 없는 댓글입니다."),
 
+    NOT_FOUND_COMMENT_EMOTION(HttpStatus.NOT_FOUND, "COMMENT_EMOTION_001", "찾을 수 없는 댓글 감정입니다."),
+    DUPLICATE_COMMENT_EMOTION(HttpStatus.BAD_REQUEST, "COMMENT_EMOTION_002", "댓글 감정은 중복될 수 없습니다."),
+    EXIST_DIFFERENT_COMMENT_EMOTION(HttpStatus.BAD_REQUEST, "COMMENT_EMOTION_003", "다른 댓글 감정이 존재합니다."),
+
     ;
 
 
