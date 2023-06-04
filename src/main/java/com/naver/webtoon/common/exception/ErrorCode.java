@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum ErrorCode {
     NOT_VALID_FORMAT(HttpStatus.BAD_REQUEST, "NOT_VALID_FORMAT", "지정된 양식을 사용해주세요."),
+    NOT_VALID_ACCESS(HttpStatus.UNAUTHORIZED, "NOT_VALID_ACCESS", "접근 권한이 없습니다."),
 
     INVALID_ACCESS_TOKEN(HttpStatus.BAD_REQUEST, "JWT_001", "Access Token이 유효하지 않습니다."),
     EXPIRATION_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED, "JWT_002", "Access Token이 만료되었습니다"),
@@ -36,6 +37,10 @@ public enum ErrorCode {
     PUBLIC_EPISODE_MUST_BE_FREE(HttpStatus.BAD_REQUEST, "EPISODE_002", "공개 웹툰은 무료여야 합니다."),
     FREE_EPISODE_MUST_HAVE_FREE_RELEASE_DATE_IS_NULL(HttpStatus.BAD_REQUEST, "EPISODE_003", "공개 웹툰은 무료 공개일이 입력되지 않아야 합니다."),
     FREE_RELEASE_DATE_MUST_BE_AFTER_THAN_CURRENT_DATE(HttpStatus.BAD_REQUEST, "EPISODE_004", "무료 공개일은 현재 날짜보다 이후여야 합니다."),
+    NOT_FOUND_EPISODE(HttpStatus.NOT_FOUND, "EPISODE_005", "찾을 수 없는 에피소드입니다."),
+
+    NOT_FOUND_COMMENT(HttpStatus.NOT_FOUND, "COMMENT_001", "찾을 수 없는 댓글입니다."),
+
     ;
 
 
