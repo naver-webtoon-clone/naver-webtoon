@@ -1,6 +1,7 @@
 package com.naver.webtoon.episode.service;
 
 import com.naver.webtoon.common.exception.WebtoonException;
+
 import com.naver.webtoon.common.redis.repository.EpisodeViewRedisRepository;
 import com.naver.webtoon.episode.dto.request.EpisodeRegisterRequest;
 import com.naver.webtoon.episode.dto.request.EpisodeUpdateRequest;
@@ -32,16 +33,19 @@ public class EpisodeService {
     private final EpisodeRepository episodeRepository;
     private final WebtoonRepository webtoonRepository;
     private final EpisodeViewRedisRepository episodeViewRedisRepository;
+
     private final static int AMOUNT_OF_PUBLIC_EPISODE_COOKIE = 0;
 
     @Transactional
     public void registerEpisode(Long webtoonId, EpisodeRegisterRequest request) {
         boolean isPublic = request.getIsPublic();
         int neededCookieAmount = request.getNeededCookieAmount();
+
         LocalDate freeReleaseDate = request.getFreeReleaseDate();
 
         throwIfFreeForPrivateEpisode(isPublic, neededCookieAmount);
         throwIfPaidForPublicEpisode(isPublic, neededCookieAmount);
+
         throwIfFreeReleaseDateEnteredForPublicEpisode(isPublic, freeReleaseDate);
         throwIfFreeReleaseDateIsCurrentDateOrLess(freeReleaseDate);
 
@@ -52,6 +56,7 @@ public class EpisodeService {
 
         episodeRepository.save(episode);
     }
+
 
     @Transactional
     public void updateEpisode(Long episodeId, EpisodeUpdateRequest request) {
