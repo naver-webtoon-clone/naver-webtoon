@@ -23,9 +23,9 @@ public class RecommendedWebtoonController {
         return new ResponseEntity<>(new SuccessMessage<>("요일별추천웹툰등록성공",null), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/webtoon/{webtoonId}/recommended")
-    public ResponseEntity<SuccessMessage<Void>> deleteRecommendedWebtoon(@PathVariable Long webtoonId) {
-        recommendedWebtoonService.deleteRecommendedWebtoon(webtoonId);
+    @DeleteMapping("/webtoon/{recommendedWebtoonId}/recommended")
+    public ResponseEntity<SuccessMessage<Void>> deleteRecommendedWebtoon(@PathVariable Long recommendedWebtoonId) {
+        recommendedWebtoonService.deleteRecommendedWebtoon(recommendedWebtoonId);
         return new ResponseEntity<>(new SuccessMessage<>("요일별추천웹툰삭제성공",null), HttpStatus.OK);
     }
 

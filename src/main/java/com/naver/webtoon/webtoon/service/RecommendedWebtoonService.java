@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.naver.webtoon.common.exception.ErrorCode.NOT_FOUND_RECOMMENDED_WEBTOON;
 import static com.naver.webtoon.common.exception.ErrorCode.NOT_FOUND_WEBTOON;
 
 @Service
@@ -23,31 +24,27 @@ public class RecommendedWebtoonService {
     private final RecommendedWebtoonRepository recommendedWebtoonRepository;
     private final WebtoonRepository webtoonRepository;
 
-    //TODO: 이미 등록 되있는 웹툰의 경우 exception 수정 필요.
     @Transactional
     public void registerRecommendedWebtoon(Long webtoonId){
-        Webtoon webtoon = findWebtoon(webtoonId);
+        Webtoon webtoon = webtoonRepository.findById(webtoonId).orElseThrow(()->
+                new WebtoonException(NOT_FOUND_WEBTOON));
         RecommendedWebtoon recommendedWebtoon = RecommendedWebtoon.createRecommendedWebtoon(webtoon);
         recommendedWebtoonRepository.save(recommendedWebtoon);
     }
 
-    //TODO: 등록 되있지 않은 웹툰의 경우 exception 수정 필요.
     @Transactional
-    public void deleteRecommendedWebtoon(Long webtoonId){
-        Webtoon webtoon = findWebtoon(webtoonId);
-        recommendedWebtoonRepository.deleteByWebtoonId(webtoon.getId());
+    public void deleteRecommendedWebtoon(Long recommendedWebtoonId){
+        RecommendedWebtoon recommendedWebtoon = recommendedWebtoonRepository.findById(recommendedWebtoonId).orElseThrow(
+                () -> new WebtoonException(NOT_FOUND_RECOMMENDED_WEBTOON));
+
+        recommendedWebtoonRepository.delete(recommendedWebtoon);
     }
 
+    //TODO:
     @Transactional
     public RecommendedWebtoonInfoResponse getRecommendedWebtoonsByDayOfWeek(String publishingDay){
         DayOfTheWeek dayOfTheWeek = DayOfTheWeek.toEnum(publishingDay);
         List<Webtoon> webtoons = recommendedWebtoonRepository.findOnGoingWebtoonByDayOfTheWeek(dayOfTheWeek);
         return RecommendedWebtoonInfoResponse.toResponse(webtoons);
-    }
-
-    public Webtoon findWebtoon(Long webtoonId){
-        Webtoon webtoon = webtoonRepository.findById(webtoonId).orElseThrow(()->
-                new WebtoonException(NOT_FOUND_WEBTOON));
-        return webtoon;
     }
 }

@@ -21,6 +21,8 @@ public enum ErrorCode {
     ALREADY_EXIST_USERNAME(HttpStatus.BAD_REQUEST, "MEMBER_004", "이미 존재하는 회원 아이디입니다."),
 
     NOT_FOUND_WEBTOON(HttpStatus.NOT_FOUND, "WEBTOON_001", "찾을 수 없는 웹툰입니다."),
+    NOT_FOUND_RECOMMENDED_WEBTOON(HttpStatus.NOT_FOUND, "RECOMMENDED_WEBTOON_001", "찾을 수 없는 추천웹툰입니다."),
+
     NOT_FOUND_SERIALIZED_STATUS(HttpStatus.NOT_FOUND, "WEBTOON_002", "찾을 수 없는 연재상태입니다."),
 
     NOT_FOUND_AUTHOR(HttpStatus.NOT_FOUND, "AUTHOR_001", "찾을 수 없는 작가입니다."),
