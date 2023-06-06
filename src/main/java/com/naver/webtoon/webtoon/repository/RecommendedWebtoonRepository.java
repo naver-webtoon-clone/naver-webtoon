@@ -21,4 +21,5 @@ public interface RecommendedWebtoonRepository extends JpaRepository<RecommendedW
             "AND wt.id IN (SELECT rw.webtoon.id FROM RecommendedWebtoon rw)")
     List<Webtoon> findRecommendedWebtoonByDayOfTheWeek(@Param("dayOfTheWeek") DayOfTheWeek dayOfTheWeek);
 
+    boolean existsByWebtoonId(Long webtoonId);
 }

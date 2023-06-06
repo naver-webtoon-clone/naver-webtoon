@@ -14,8 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.naver.webtoon.common.exception.ErrorCode.NOT_FOUND_RECOMMENDED_WEBTOON;
-import static com.naver.webtoon.common.exception.ErrorCode.NOT_FOUND_WEBTOON;
+import static com.naver.webtoon.common.exception.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -24,9 +23,11 @@ public class RecommendedWebtoonService {
     private final RecommendedWebtoonRepository recommendedWebtoonRepository;
     private final WebtoonRepository webtoonRepository;
 
-    //TODO : 중복된 값 예외처리(webtoonTitle)
     @Transactional
     public void registerRecommendedWebtoon(Long webtoonId) {
+        if (recommendedWebtoonRepository.existsByWebtoonId(webtoonId)) {
+            throw new WebtoonException(ALREADY_EXIST_WEBTOON);
+        }
         Webtoon webtoon = webtoonRepository.findById(webtoonId).orElseThrow(()->
                 new WebtoonException(NOT_FOUND_WEBTOON));
         RecommendedWebtoon recommendedWebtoon = RecommendedWebtoon.createRecommendedWebtoon(webtoon);
