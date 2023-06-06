@@ -24,16 +24,18 @@ public class RecommendedWebtoonService {
     private final RecommendedWebtoonRepository recommendedWebtoonRepository;
     private final WebtoonRepository webtoonRepository;
 
+    //TODO : 중복된 값 예외처리(webtoonTitle)
     @Transactional
-    public void registerRecommendedWebtoon(Long webtoonId){
+    public void registerRecommendedWebtoon(Long webtoonId) {
         Webtoon webtoon = webtoonRepository.findById(webtoonId).orElseThrow(()->
                 new WebtoonException(NOT_FOUND_WEBTOON));
         RecommendedWebtoon recommendedWebtoon = RecommendedWebtoon.createRecommendedWebtoon(webtoon);
         recommendedWebtoonRepository.save(recommendedWebtoon);
     }
 
+    //TODO : 추천웹툰에 등록되있는 값 예외처리
     @Transactional
-    public void deleteRecommendedWebtoon(Long recommendedWebtoonId){
+    public void deleteRecommendedWebtoon(Long recommendedWebtoonId) {
         RecommendedWebtoon recommendedWebtoon = recommendedWebtoonRepository.findById(recommendedWebtoonId).orElseThrow(
                 () -> new WebtoonException(NOT_FOUND_RECOMMENDED_WEBTOON));
 
@@ -42,9 +44,9 @@ public class RecommendedWebtoonService {
 
     //TODO:
     @Transactional
-    public RecommendedWebtoonInfoResponse getRecommendedWebtoonsByDayOfWeek(String publishingDay){
+    public RecommendedWebtoonInfoResponse getRecommendedWebtoonsByDayOfWeek(String publishingDay) {
         DayOfTheWeek dayOfTheWeek = DayOfTheWeek.toEnum(publishingDay);
-        List<Webtoon> webtoons = recommendedWebtoonRepository.findOnGoingWebtoonByDayOfTheWeek(dayOfTheWeek);
+        List<Webtoon> webtoons = recommendedWebtoonRepository.findRecommendedWebtoonByDayOfTheWeek(dayOfTheWeek);
         return RecommendedWebtoonInfoResponse.toResponse(webtoons);
     }
 }
