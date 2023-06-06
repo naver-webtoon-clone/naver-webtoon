@@ -34,7 +34,6 @@ public class RecommendedWebtoonService {
         recommendedWebtoonRepository.save(recommendedWebtoon);
     }
 
-    //TODO : 추천웹툰에 등록되있는 값 예외처리
     @Transactional
     public void deleteRecommendedWebtoon(Long recommendedWebtoonId) {
         RecommendedWebtoon recommendedWebtoon = recommendedWebtoonRepository.findById(recommendedWebtoonId).orElseThrow(
