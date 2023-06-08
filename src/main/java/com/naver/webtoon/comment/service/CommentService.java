@@ -2,16 +2,21 @@ package com.naver.webtoon.comment.service;
 
 import com.naver.webtoon.comment.dto.request.CommentUpdateRequest;
 import com.naver.webtoon.comment.dto.request.CommentWriteRequest;
+import com.naver.webtoon.comment.dto.response.ReCommentInfo;
+import com.naver.webtoon.comment.dto.response.ReCommentInfoSliceResponse;
 import com.naver.webtoon.comment.entity.Comment;
 import com.naver.webtoon.comment.entity.CommentEmotion;
 import com.naver.webtoon.comment.entity.enums.EmotionType;
 import com.naver.webtoon.comment.repository.CommentEmotionRepository;
 import com.naver.webtoon.comment.repository.CommentRepository;
+import com.naver.webtoon.comment.repository.ReCommentRepository;
 import com.naver.webtoon.common.exception.WebtoonException;
 import com.naver.webtoon.episode.entity.Episode;
 import com.naver.webtoon.episode.repository.EpisodeRepository;
 import com.naver.webtoon.member.entity.Member;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +34,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final EpisodeRepository episodeRepository;
     private final CommentEmotionRepository commentEmotionRepository;
+    private final ReCommentRepository reCommentRepository;
 
     @Transactional
     public void writeComment(Member currentMember, Long episodeId, CommentWriteRequest request) {
@@ -137,4 +143,23 @@ public class CommentService {
         }
     }
 
+    public ReCommentInfoSliceResponse retrieveReCommentWhenLogin(Member currentMember, Long commentId, int page) {
+        PageRequest pageRequest = PageRequest.of(page, 10);
+        Comment comment = commentRepository.findById(commentId).orElseThrow(
+                () -> new WebtoonException(NOT_FOUND_COMMENT));
+
+        Slice<ReCommentInfo> reCommentSlice = reCommentRepository.findSliceByCommentWhenLogin(comment, currentMember.getId(), pageRequest);
+
+        return ReCommentInfoSliceResponse.toResponse(reCommentSlice);
+    }
+
+    public ReCommentInfoSliceResponse retrieveReCommentWhenNonLogin(Long commentId, int page) {
+        PageRequest pageRequest = PageRequest.of(page, 10);
+        Comment comment = commentRepository.findById(commentId).orElseThrow(
+                () -> new WebtoonException(NOT_FOUND_COMMENT));
+
+        Slice<ReCommentInfo> reCommentSlice = reCommentRepository.findSliceByCommentWhenNonLogin(comment, pageRequest);
+
+        return ReCommentInfoSliceResponse.toResponse(reCommentSlice);
+    }
 }
