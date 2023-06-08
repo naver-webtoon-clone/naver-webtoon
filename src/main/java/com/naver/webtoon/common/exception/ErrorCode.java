@@ -35,11 +35,15 @@ public enum ErrorCode {
     NOT_FOUND_DAY_OF_THE_WEEK(HttpStatus.NOT_FOUND, "PUBLISHING_DAY_002", "찾을 수 없는 요일입니다."),
 
     NOT_FOUND_WEBTOON_PUBLISHING_DAY(HttpStatus.NOT_FOUND, "WEBTOON_PUBLISHING_DAY_002", "찾을 수 없는 웹툰연재요일입니다."),
-    
-    PRIVATE_EPISODE_MUST_BE_PAID(HttpStatus.BAD_REQUEST, "EPISODE_001", "비공개 웹툰은 유료여야 합니다."),
-    PUBLIC_EPISODE_MUST_BE_FREE(HttpStatus.BAD_REQUEST, "EPISODE_002", "공개 웹툰은 무료여야 합니다."),
-    FREE_EPISODE_MUST_HAVE_FREE_RELEASE_DATE_IS_NULL(HttpStatus.BAD_REQUEST, "EPISODE_003", "공개 웹툰은 무료 공개일이 입력되지 않아야 합니다."),
-    FREE_RELEASE_DATE_MUST_BE_AFTER_THAN_CURRENT_DATE(HttpStatus.BAD_REQUEST, "EPISODE_004", "무료 공개일은 현재 날짜보다 이후여야 합니다."),
+
+    NOT_FOUND_EPISODE(HttpStatus.NOT_FOUND, "EPISODE_001", "찾을 수 없는 에피소드입니다."),
+    PRIVATE_EPISODE_MUST_BE_PAID(HttpStatus.BAD_REQUEST, "EPISODE_002", "비공개 에피소드는 유료여야 합니다."),
+    PUBLIC_EPISODE_MUST_BE_FREE(HttpStatus.BAD_REQUEST, "EPISODE_003", "공개 에피소드는 무료여야 합니다."),
+    FREE_EPISODE_MUST_HAVE_FREE_RELEASE_DATE_IS_NULL(HttpStatus.BAD_REQUEST, "EPISODE_004", "공개 웹툰은 무료 공개일이 입력되지 않아야 합니다."),
+    FREE_RELEASE_DATE_MUST_BE_AFTER_THAN_CURRENT_DATE(HttpStatus.BAD_REQUEST, "EPISODE_005", "무료 공개일은 현재 날짜보다 이후여야 합니다."),
+    PRIVATE_EPISODE_INACCESSIBILITY(HttpStatus.BAD_REQUEST, "EPISODE_006", "비공개 에피소드는 접근 불가능합니다."),
+    PUBLIC_EPISODE_INACCESSIBILITY(HttpStatus.BAD_REQUEST, "EPISODE_007", "공개 에피소드는 접근 불가능합니다."),
+
     ;
 
 
