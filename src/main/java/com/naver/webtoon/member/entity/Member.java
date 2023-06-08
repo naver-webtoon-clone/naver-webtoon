@@ -38,4 +38,8 @@ public class Member extends Timestamped {
         this.password = password;
         this.cookieCount = cookieCount;
     }
+
+    public boolean isMismatch(Member otherMember) {
+        return !this.equals(otherMember);
+    }
 }
