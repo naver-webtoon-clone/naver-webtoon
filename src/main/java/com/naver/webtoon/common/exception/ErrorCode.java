@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 @AllArgsConstructor
 public enum ErrorCode {
+  
     NOT_VALID_FORMAT(HttpStatus.BAD_REQUEST, "NOT_VALID_FORMAT", "지정된 양식을 사용해주세요."),
     NOT_VALID_ACCESS(HttpStatus.UNAUTHORIZED, "NOT_VALID_ACCESS", "접근 권한이 없습니다."),
 
@@ -46,9 +47,8 @@ public enum ErrorCode {
     EXIST_DIFFERENT_COMMENT_EMOTION(HttpStatus.BAD_REQUEST, "COMMENT_EMOTION_003", "다른 댓글 감정이 존재합니다."),
 
     NOT_FOUND_RE_COMMENT(HttpStatus.NOT_FOUND, "RE_COMMENT_001", "찾을 수 없는 답글입니다."),
+
     ;
-
-
 
     private final HttpStatus httpStatus;
     private final String code;
