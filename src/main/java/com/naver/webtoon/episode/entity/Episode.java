@@ -64,4 +64,13 @@ public class Episode extends Timestamped {
         this.freeReleaseDate = freeReleaseDate;
         this.webtoon = webtoon;
     }
+
+    public void update(String title, String content, String postscript, Boolean isPublic, Integer neededCookieAmount, LocalDate freeReleaseDate) {
+        this.title = title;
+        this.content = content;
+        this.postscript = postscript;
+        this.isPublic = isPublic;
+        this.neededCookieAmount = neededCookieAmount;
+        this.freeReleaseDate = freeReleaseDate;
+    }
 }
