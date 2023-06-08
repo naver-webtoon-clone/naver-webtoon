@@ -45,6 +45,7 @@ public enum ErrorCode {
     DUPLICATE_COMMENT_EMOTION(HttpStatus.BAD_REQUEST, "COMMENT_EMOTION_002", "댓글 감정은 중복될 수 없습니다."),
     EXIST_DIFFERENT_COMMENT_EMOTION(HttpStatus.BAD_REQUEST, "COMMENT_EMOTION_003", "다른 댓글 감정이 존재합니다."),
 
+    NOT_FOUND_RE_COMMENT(HttpStatus.NOT_FOUND, "RE_COMMENT_001", "찾을 수 없는 답글입니다."),
     ;
 
 
