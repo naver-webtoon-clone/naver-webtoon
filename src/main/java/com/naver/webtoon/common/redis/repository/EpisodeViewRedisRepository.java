@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class EpisodeViewRedisRepository {
 
-    private final RedisTemplate<String, Long> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
     private final static long VIEW = 1;
     private final static String KEY_NAME = "webtoonId: ";
 
