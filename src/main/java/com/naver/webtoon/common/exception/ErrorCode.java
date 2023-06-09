@@ -47,7 +47,6 @@ public enum ErrorCode {
     EXIST_DIFFERENT_COMMENT_EMOTION(HttpStatus.BAD_REQUEST, "COMMENT_EMOTION_003", "다른 댓글 감정이 존재합니다."),
 
     NOT_FOUND_RE_COMMENT(HttpStatus.NOT_FOUND, "RE_COMMENT_001", "찾을 수 없는 답글입니다."),
-
     ;
 
     private final HttpStatus httpStatus;
