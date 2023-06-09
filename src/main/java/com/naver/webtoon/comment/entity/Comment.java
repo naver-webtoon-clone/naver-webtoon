@@ -30,6 +30,12 @@ public class Comment extends Timestamped {
     @Column(nullable = false)
     private String content;
 
+    @Column(name = "like_count", nullable = false)
+    private Long likeCount;
+
+    @Column(name = "dislike_count", nullable = false)
+    private Long dislikeCount;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="member_id")
     private Member member;
