@@ -38,6 +38,7 @@ public class WebSecurityConfig {
 
         http.authorizeRequests().
                 antMatchers("/api/auth/**").permitAll().
+                antMatchers("/api/comment/**/re-comment/**/non-login").permitAll().
                 anyRequest().authenticated().
                 and().
                 addFilterBefore(new JwtAuthenticationFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class).
