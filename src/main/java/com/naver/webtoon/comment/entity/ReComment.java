@@ -1,7 +1,6 @@
 package com.naver.webtoon.comment.entity;
 
 import com.naver.webtoon.common.time.Timestamped;
-import com.naver.webtoon.episode.entity.Episode;
 import com.naver.webtoon.member.entity.Member;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -20,36 +19,30 @@ import javax.persistence.ManyToOne;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Comment extends Timestamped {
+public class ReComment extends Timestamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "comment_id")
+    @Column(name = "re_comment_id")
     private Long id;
 
     @Column(nullable = false)
     private String content;
-
-    @Column(name = "like_count", nullable = false)
-    private Long likeCount;
-
-    @Column(name = "dislike_count", nullable = false)
-    private Long dislikeCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="member_id")
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="episode_id")
-    private Episode episode;
+    @JoinColumn(name="comment_id")
+    private Comment comment;
 
     @Builder
-    public Comment(Long id, String content, Member member, Episode episode) {
+    public ReComment(Long id, String content, Member member, Comment comment) {
         this.id = id;
         this.content = content;
         this.member = member;
-        this.episode = episode;
+        this.comment = comment;
     }
 
     public void update(String content) {
