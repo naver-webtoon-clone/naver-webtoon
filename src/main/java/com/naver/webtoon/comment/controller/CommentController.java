@@ -2,6 +2,7 @@ package com.naver.webtoon.comment.controller;
 
 import com.naver.webtoon.comment.dto.request.CommentUpdateRequest;
 import com.naver.webtoon.comment.dto.request.CommentWriteRequest;
+import com.naver.webtoon.comment.dto.response.BestCommentInfoListResponse;
 import com.naver.webtoon.comment.dto.response.ReCommentInfoSliceResponse;
 import com.naver.webtoon.comment.service.CommentService;
 import com.naver.webtoon.common.response.SuccessMessage;
@@ -72,15 +73,19 @@ public class CommentController {
 
     @GetMapping("/comment/{commentId}/re-comment/{page}/login")
     public ResponseEntity<SuccessMessage<ReCommentInfoSliceResponse>> retrieveReCommentWhenLogin(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long commentId, @PathVariable int page) {
-
         ReCommentInfoSliceResponse response = commentService.retrieveReCommentWhenLogin(userDetails.getMember(), commentId, page);
         return new ResponseEntity<>(new SuccessMessage<>("답글조회성공", response), HttpStatus.OK);
     }
 
     @GetMapping("/comment/{commentId}/re-comment/{page}/non-login")
     public ResponseEntity<SuccessMessage<ReCommentInfoSliceResponse>> retrieveReCommentWhenNonLogin(@PathVariable Long commentId, @PathVariable int page) {
-
         ReCommentInfoSliceResponse response = commentService.retrieveReCommentWhenNonLogin(commentId, page);
         return new ResponseEntity<>(new SuccessMessage<>("답글조회성공", response), HttpStatus.OK);
+    }
+
+    @GetMapping("/episode/{episodeId}/comment/best/login")
+    public ResponseEntity<SuccessMessage<BestCommentInfoListResponse>> retrieveBestComment(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long episodeId) {
+        BestCommentInfoListResponse response = commentService.retrieveBestComment(userDetails.getMember(), episodeId);
+        return new ResponseEntity<>(new SuccessMessage<>("베스트댓글조회성공", response), HttpStatus.OK);
     }
 }

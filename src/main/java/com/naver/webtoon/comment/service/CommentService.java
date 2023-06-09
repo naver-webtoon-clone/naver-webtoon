@@ -2,6 +2,8 @@ package com.naver.webtoon.comment.service;
 
 import com.naver.webtoon.comment.dto.request.CommentUpdateRequest;
 import com.naver.webtoon.comment.dto.request.CommentWriteRequest;
+import com.naver.webtoon.comment.dto.response.BestCommentInfoListResponse;
+import com.naver.webtoon.comment.dto.response.CommentInfo;
 import com.naver.webtoon.comment.dto.response.ReCommentInfo;
 import com.naver.webtoon.comment.dto.response.ReCommentInfoSliceResponse;
 import com.naver.webtoon.comment.entity.Comment;
@@ -19,6 +21,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static com.naver.webtoon.common.exception.ErrorCode.DUPLICATE_COMMENT_EMOTION;
 import static com.naver.webtoon.common.exception.ErrorCode.EXIST_DIFFERENT_COMMENT_EMOTION;
@@ -76,6 +80,7 @@ public class CommentService {
         CommentEmotion commentLike = CommentEmotion.createCommentLike(memberId, comment);
 
         throwIfDuplicatedEmotion(memberId, comment);
+        commentRepository.increaseLikeCountAtomically(comment);
         commentEmotionRepository.save(commentLike);
     }
 
@@ -90,6 +95,7 @@ public class CommentService {
 
         throwIfEmotionDifferentFromLike(commentEmotion.getType());
 
+        commentRepository.decreaseLikeCountAtomically(comment);
         commentEmotionRepository.delete(commentEmotion);
     }
 
@@ -102,6 +108,8 @@ public class CommentService {
         CommentEmotion commentDislike = CommentEmotion.createCommentDislike(memberId, comment);
 
         throwIfDuplicatedEmotion(memberId, comment);
+
+        commentRepository.increaseDislikeCountAtomically(comment);
         commentEmotionRepository.save(commentDislike);
     }
 
@@ -116,6 +124,7 @@ public class CommentService {
 
         throwIfEmotionDifferentFromDislike(commentEmotion.getType());
 
+        commentRepository.decreaseDislikeCountAtomically(comment);
         commentEmotionRepository.delete(commentEmotion);
     }
 
@@ -144,9 +153,10 @@ public class CommentService {
     }
 
     public ReCommentInfoSliceResponse retrieveReCommentWhenLogin(Member currentMember, Long commentId, int page) {
-        PageRequest pageRequest = PageRequest.of(page, 10);
         Comment comment = commentRepository.findById(commentId).orElseThrow(
                 () -> new WebtoonException(NOT_FOUND_COMMENT));
+        int size = 10;
+        PageRequest pageRequest = PageRequest.of(page, size);
 
         Slice<ReCommentInfo> reCommentSlice = reCommentRepository.findSliceByCommentWhenLogin(comment, currentMember.getId(), pageRequest);
 
@@ -154,12 +164,24 @@ public class CommentService {
     }
 
     public ReCommentInfoSliceResponse retrieveReCommentWhenNonLogin(Long commentId, int page) {
-        PageRequest pageRequest = PageRequest.of(page, 10);
         Comment comment = commentRepository.findById(commentId).orElseThrow(
                 () -> new WebtoonException(NOT_FOUND_COMMENT));
+        int size = 10;
+        PageRequest pageRequest = PageRequest.of(page, size);
 
         Slice<ReCommentInfo> reCommentSlice = reCommentRepository.findSliceByCommentWhenNonLogin(comment, pageRequest);
 
         return ReCommentInfoSliceResponse.toResponse(reCommentSlice);
+    }
+
+    public BestCommentInfoListResponse retrieveBestComment(Member currentMember, Long episodeId) {
+        Episode episode = episodeRepository.findById(episodeId).orElseThrow(
+                () -> new WebtoonException(NOT_FOUND_EPISODE));
+        int start = 0;
+        int size = 10;
+        PageRequest limitTen = PageRequest.of(start, size);
+        List<CommentInfo> bestCommentList = commentRepository.findBestCommentListByEpisodeWhenLogin(episode, currentMember.getId(), limitTen).getContent();
+
+        return BestCommentInfoListResponse.toResponse(bestCommentList);
     }
 }
