@@ -195,5 +195,4 @@ public class CommentService {
 
         return BestCommentInfoListResponse.toResponse(bestCommentList);
     }
-
 }
