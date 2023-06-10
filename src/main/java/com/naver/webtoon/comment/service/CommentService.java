@@ -174,7 +174,7 @@ public class CommentService {
         return ReCommentInfoSliceResponse.toResponse(reCommentSlice);
     }
 
-    public BestCommentInfoListResponse retrieveBestComment(Member currentMember, Long episodeId) {
+    public BestCommentInfoListResponse retrieveBestCommentWhenLogin(Member currentMember, Long episodeId) {
         Episode episode = episodeRepository.findById(episodeId).orElseThrow(
                 () -> new WebtoonException(NOT_FOUND_EPISODE));
         int start = 0;
@@ -184,4 +184,16 @@ public class CommentService {
 
         return BestCommentInfoListResponse.toResponse(bestCommentList);
     }
+
+    public BestCommentInfoListResponse retrieveBestCommentWhenNonLogin(Long episodeId) {
+        Episode episode = episodeRepository.findById(episodeId).orElseThrow(
+                () -> new WebtoonException(NOT_FOUND_EPISODE));
+        int start = 0;
+        int size = 10;
+        PageRequest limitTen = PageRequest.of(start, size);
+        List<CommentInfo> bestCommentList = commentRepository.findBestCommentListByEpisodeWhenNonLogin(episode, limitTen).getContent();
+
+        return BestCommentInfoListResponse.toResponse(bestCommentList);
+    }
+
 }

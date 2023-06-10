@@ -29,6 +29,21 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
             "ORDER BY comment.likeCount DESC")
     Slice<CommentInfo> findBestCommentListByEpisodeWhenLogin(@Param("episode") Episode episode, @Param("currentMemberId") Long currentMemberId, Pageable pageable);
 
+    @Query(value = "SELECT new com.naver.webtoon.comment.dto.response.CommentInfo(" +
+            "comment.id, " +
+            "comment.content, " +
+            "comment.member.username, " +
+            "'EMOTIONLESS', " +
+            "comment.likeCount, " +
+            "comment.dislikeCount, " +
+            "(SELECT COUNT(reComment) FROM ReComment reComment WHERE reComment.comment = comment), " +
+            "comment.createdAt) " +
+            "FROM Comment comment " +
+            "LEFT JOIN CommentEmotion commentEmotion ON commentEmotion.comment = comment " +
+            "WHERE comment.episode = :episode " +
+            "ORDER BY comment.likeCount DESC")
+    Slice<CommentInfo> findBestCommentListByEpisodeWhenNonLogin(@Param("episode") Episode episode, Pageable pageable);
+
     @Modifying
     @Query("UPDATE Comment comment SET comment.likeCount = comment.likeCount + 1 WHERE comment = :comment")
     void increaseLikeCountAtomically(@Param("comment") Comment comment);
