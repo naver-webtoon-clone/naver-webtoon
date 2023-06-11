@@ -4,6 +4,7 @@ import com.naver.webtoon.comment.dto.request.CommentUpdateRequest;
 import com.naver.webtoon.comment.dto.request.CommentWriteRequest;
 import com.naver.webtoon.comment.dto.response.BestCommentInfoListResponse;
 import com.naver.webtoon.comment.dto.response.CommentInfo;
+import com.naver.webtoon.comment.dto.response.CommentInfoSliceResponse;
 import com.naver.webtoon.comment.dto.response.ReCommentInfo;
 import com.naver.webtoon.comment.dto.response.ReCommentInfoSliceResponse;
 import com.naver.webtoon.comment.entity.Comment;
@@ -196,4 +197,23 @@ public class CommentService {
         return BestCommentInfoListResponse.toResponse(bestCommentList);
     }
 
+    public CommentInfoSliceResponse retrieveAllCommentWhenLogin(Member currentMember, Long episodeId, int page) {
+        Episode episode = episodeRepository.findById(episodeId).orElseThrow(
+                () -> new WebtoonException(NOT_FOUND_EPISODE));
+        int size = 10;
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Slice<CommentInfo> commentSlice = commentRepository.findSliceByEpisodeWhenLogin(episode, currentMember.getId(), pageRequest);
+
+        return CommentInfoSliceResponse.toResponse(commentSlice);
+    }
+
+    public CommentInfoSliceResponse retrieveAllCommentWhenNonLogin(Long episodeId, int page) {
+        Episode episode = episodeRepository.findById(episodeId).orElseThrow(
+                () -> new WebtoonException(NOT_FOUND_EPISODE));
+        int size = 10;
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Slice<CommentInfo> commentSlice = commentRepository.findSliceByEpisodeWhenNonLogin(episode, pageRequest);
+
+        return CommentInfoSliceResponse.toResponse(commentSlice);
+    }
 }
