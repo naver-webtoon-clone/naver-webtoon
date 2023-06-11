@@ -3,6 +3,7 @@ package com.naver.webtoon.webtoon.controller;
 import com.naver.webtoon.common.response.SuccessMessage;
 import com.naver.webtoon.webtoon.dto.request.WebtoonRegisterRequest;
 import com.naver.webtoon.webtoon.dto.request.WebtoonUpdateRequest;
+import com.naver.webtoon.webtoon.dto.response.RealTimeNewWebtoonRankingInfoResponse;
 import com.naver.webtoon.webtoon.dto.response.RealTimePopularWebtoonInfoResponse;
 import com.naver.webtoon.webtoon.dto.response.WebtoonInfoListResponse;
 import com.naver.webtoon.webtoon.service.WebtoonService;
@@ -66,5 +67,10 @@ public class WebtoonController {
     public ResponseEntity<SuccessMessage<RealTimePopularWebtoonInfoResponse>> getRealTimePopularWebtoons() {
         RealTimePopularWebtoonInfoResponse response = webtoonService.getRealTimePopularWebtoons();
         return new ResponseEntity<>(new SuccessMessage<>("실시간인기웹툰조회성공",response), HttpStatus.OK);
+    }
+    @GetMapping("/webtoon/new-work-ranking")
+    public ResponseEntity<SuccessMessage<RealTimeNewWebtoonRankingInfoResponse>> getRealTimeNewWebtoonRanking() {
+        RealTimeNewWebtoonRankingInfoResponse response = webtoonService.getRealTimeNewWebtoonRanking();
+        return new ResponseEntity<>(new SuccessMessage<>("실시간신작랭킹웹툰조회성공",response), HttpStatus.OK);
     }
 }

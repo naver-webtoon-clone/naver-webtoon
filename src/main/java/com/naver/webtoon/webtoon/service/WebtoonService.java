@@ -3,6 +3,7 @@ package com.naver.webtoon.webtoon.service;
 import com.naver.webtoon.common.exception.WebtoonException;
 import com.naver.webtoon.webtoon.dto.request.WebtoonRegisterRequest;
 import com.naver.webtoon.webtoon.dto.request.WebtoonUpdateRequest;
+import com.naver.webtoon.webtoon.dto.response.RealTimeNewWebtoonRankingInfoResponse;
 import com.naver.webtoon.webtoon.dto.response.RealTimePopularWebtoonInfoResponse;
 import com.naver.webtoon.webtoon.dto.response.WebtoonInfoListResponse;
 import com.naver.webtoon.webtoon.entity.Author;
@@ -173,8 +174,14 @@ public class WebtoonService {
     //TODO: 30일동안 웹툰의 조회수가 많은 순서대로 내림차순으로 return해주는 메소드 repository에서 처리 필요.
     @Transactional(readOnly = true)
     @Cacheable(value = "realTimePopular")
-    public RealTimePopularWebtoonInfoResponse getRealTimePopularWebtoons(){
+    public RealTimePopularWebtoonInfoResponse getRealTimePopularWebtoons() {
         List<Webtoon> webtoons = webtoonRepository.findAll();
         return RealTimePopularWebtoonInfoResponse.toRealTimeResponse(webtoons);
+    }
+    //TODO: 30일동안 웹툰의 조회수가 많은 순서대로 내림차순으로 return해주는 메소드 repository에서 처리 필요.
+    @Transactional(readOnly = true)
+    public RealTimeNewWebtoonRankingInfoResponse getRealTimeNewWebtoonRanking(){
+        List<Webtoon> webtoons = webtoonRepository.findAll();
+        return RealTimeNewWebtoonRankingInfoResponse.toResponse(webtoons);
     }
 }
