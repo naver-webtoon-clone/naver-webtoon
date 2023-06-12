@@ -1,0 +1,49 @@
+package com.naver.webtoon.webtoon.dto.response;
+
+import com.naver.webtoon.common.time.TimeUtils;
+import com.naver.webtoon.webtoon.entity.Webtoon;
+import lombok.Builder;
+import lombok.Getter;
+
+import static com.naver.webtoon.webtoon.entity.enums.SerializedStatus.BREAK;
+
+@Getter
+public class CompletedWebtoonsByPopularityInfo {
+
+    private Long webtoonId;
+    private String title;
+    private String author;
+    private String thumbnail;
+    private Boolean isPause;
+    private Float webtoonStarRating;
+
+    @Builder
+    public CompletedWebtoonsByPopularityInfo(Long webtoonId,
+                                             String title,
+                                             String author,
+                                             String thumbnail,
+                                             Boolean isPause,
+                                             Float webtoonStarRating){
+        this.webtoonId = webtoonId;
+        this.title = title;
+        this.author = author;
+        this.thumbnail = thumbnail;
+        this.isPause = isPause;
+        this.webtoonStarRating = webtoonStarRating;
+    }
+    public static CompletedWebtoonsByPopularityInfo toList(Webtoon webtoon){
+        //TODO: webtoonStarRating 내용 임의의 수 후에 수정 필요.
+        Float webtoonStarRating = 0.0F;
+        Boolean isPause = (webtoon.getSerializedStatus() == BREAK);
+
+
+        return CompletedWebtoonsByPopularityInfo.builder()
+                .webtoonId(webtoon.getId())
+                .title(webtoon.getTitle())
+                .author(webtoon.getAuthor().getName())
+                .thumbnail(webtoon.getThumbnail())
+                .isPause(isPause)
+                .webtoonStarRating(webtoonStarRating)
+                .build();
+    }
+}

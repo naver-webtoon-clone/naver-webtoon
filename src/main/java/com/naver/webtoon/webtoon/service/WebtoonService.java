@@ -3,9 +3,7 @@ package com.naver.webtoon.webtoon.service;
 import com.naver.webtoon.common.exception.WebtoonException;
 import com.naver.webtoon.webtoon.dto.request.WebtoonRegisterRequest;
 import com.naver.webtoon.webtoon.dto.request.WebtoonUpdateRequest;
-import com.naver.webtoon.webtoon.dto.response.RealTimeNewWebtoonRankingInfoResponse;
-import com.naver.webtoon.webtoon.dto.response.RealTimePopularWebtoonInfoResponse;
-import com.naver.webtoon.webtoon.dto.response.WebtoonInfoListResponse;
+import com.naver.webtoon.webtoon.dto.response.*;
 import com.naver.webtoon.webtoon.entity.Author;
 import com.naver.webtoon.webtoon.entity.HashTag;
 import com.naver.webtoon.webtoon.entity.PublishingDay;
@@ -22,6 +20,8 @@ import com.naver.webtoon.webtoon.repository.WebtoonPublishingDayRepository;
 import com.naver.webtoon.webtoon.repository.WebtoonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -178,10 +178,19 @@ public class WebtoonService {
         List<Webtoon> webtoons = webtoonRepository.findAll();
         return RealTimePopularWebtoonInfoResponse.toRealTimeResponse(webtoons);
     }
+
     //TODO: 30일동안 웹툰의 조회수가 많은 순서대로 내림차순으로 return해주는 메소드 repository에서 처리 필요.
     @Transactional(readOnly = true)
     public RealTimeNewWebtoonRankingInfoResponse getRealTimeNewWebtoonRanking(){
         List<Webtoon> webtoons = webtoonRepository.findAll();
         return RealTimeNewWebtoonRankingInfoResponse.toResponse(webtoons);
+    }
+
+    @Transactional(readOnly = true)
+    public CompletedWebtoonInfoSliceResponse getCompletedWebtoonsByPopularity(int page){
+        int size = 10;
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Slice<CompletedWebtoonsByPopularityInfo> completedWebtoonSlice = webtoonRepository.findCompletedWebtoonsByPopularityOrderByPopularityDesc();
+        return CompletedWebtoonInfoSliceResponse.toResponse(completedWebtoonSlice);
     }
 }
