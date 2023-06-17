@@ -1,8 +1,10 @@
 package com.naver.webtoon.webtoon.repository;
 
+import com.naver.webtoon.webtoon.dto.response.CompletedWebtoonInfoSliceResponse;
 import com.naver.webtoon.webtoon.dto.response.CompletedWebtoonsByPopularityInfo;
 import com.naver.webtoon.webtoon.entity.Webtoon;
 import com.naver.webtoon.webtoon.entity.enums.DayOfTheWeek;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -28,8 +30,9 @@ public interface WebtoonRepository extends JpaRepository<Webtoon, Long> {
 
     List<Webtoon> findAll();
 
-    @Query("SELECT new com.naver.webtoon.comment.dto.response.CompletedWebtoonsByPopularityInfo(webtoon.id, webtoon.title, webtoon.author.name, webtoon.thumbnail) " +
-            "FROM Webtoon webtoon " +
-            "WHERE webtoon.serializedStatus = 'BREAK'")
-    Slice<CompletedWebtoonsByPopularityInfo> findCompletedWebtoonsByPopularityOrderByPopularityDesc();
+    @Query("SELECT new com.naver.webtoon.webtoon.dto.response.CompletedWebtoonsByPopularityInfo(wb.id, wb.title, wb.author.name, wb.thumbnail, " +
+            "CASE WHEN wb.serializedStatus = 'BREAK' THEN 'BREAK' WHEN wb.serializedStatus = 'SERIALIZED' THEN 'SERIALIZED' ELSE false END) " +
+            "FROM Webtoon wb " +
+            "WHERE wb.serializedStatus = 'BREAK'")
+    Slice<CompletedWebtoonsByPopularityInfo> findCompletedWebtoonsByPopularityOrderByPopularityDesc(Pageable pageRequest);
 }

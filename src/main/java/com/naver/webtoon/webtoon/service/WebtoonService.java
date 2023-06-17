@@ -21,6 +21,7 @@ import com.naver.webtoon.webtoon.repository.WebtoonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -162,7 +163,6 @@ public class WebtoonService {
         return WebtoonInfoListResponse.toResponse(webtoons);
     }
 
-
     @Transactional(readOnly = true)
     @Cacheable(value = "higestStars")
     public WebtoonInfoListResponse getHigestStarsWebtoonsByDayOfWeek(String publishingDay){
@@ -190,7 +190,7 @@ public class WebtoonService {
     public CompletedWebtoonInfoSliceResponse getCompletedWebtoonsByPopularity(int page){
         int size = 10;
         PageRequest pageRequest = PageRequest.of(page, size);
-        Slice<CompletedWebtoonsByPopularityInfo> completedWebtoonSlice = webtoonRepository.findCompletedWebtoonsByPopularityOrderByPopularityDesc();
+        Slice<CompletedWebtoonsByPopularityInfo> completedWebtoonSlice = webtoonRepository.findCompletedWebtoonsByPopularityOrderByPopularityDesc(pageRequest);
         return CompletedWebtoonInfoSliceResponse.toResponse(completedWebtoonSlice);
     }
 }
