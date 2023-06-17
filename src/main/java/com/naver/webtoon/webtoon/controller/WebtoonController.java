@@ -79,4 +79,9 @@ public class WebtoonController {
         CompletedWebtoonInfoSliceResponse response = webtoonService.getCompletedWebtoonsByPopularity(page);
         return new ResponseEntity<>(new SuccessMessage<>("완결웹툰인기순조회성공",response), HttpStatus.OK);
     }
+    @GetMapping("/webtoon/finished/latest/page/{page}")
+    public ResponseEntity<SuccessMessage<CompletedWebtoonInfoSliceResponse>> getCompletedWebtoonsByRecentCompletion(@PathVariable int page) {
+        CompletedWebtoonInfoSliceResponse response = webtoonService.getCompletedWebtoonsByPopularity(page);
+        return new ResponseEntity<>(new SuccessMessage<>("완결웹툰최근완결순조회성공",response), HttpStatus.OK);
+    }
 }

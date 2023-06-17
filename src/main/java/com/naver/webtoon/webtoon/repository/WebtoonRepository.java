@@ -31,8 +31,15 @@ public interface WebtoonRepository extends JpaRepository<Webtoon, Long> {
     List<Webtoon> findAll();
 
     @Query("SELECT new com.naver.webtoon.webtoon.dto.response.CompletedWebtoonsByPopularityInfo(wb.id, wb.title, wb.author.name, wb.thumbnail, " +
-            "CASE WHEN wb.serializedStatus = 'BREAK' THEN 'BREAK' WHEN wb.serializedStatus = 'SERIALIZED' THEN 'SERIALIZED' ELSE false END) " +
+            "CASE WHEN wb.serializedStatus = 'BREAK' THEN 'BREAK' WHEN wb.serializedStatus = 'SERIALIZED' THEN 'SERIALIZED' ELSE null END) " +
             "FROM Webtoon wb " +
             "WHERE wb.serializedStatus = 'BREAK'")
     Slice<CompletedWebtoonsByPopularityInfo> findCompletedWebtoonsByPopularityOrderByPopularityDesc(Pageable pageRequest);
+    @Query("SELECT new com.naver.webtoon.webtoon.dto.response.CompletedWebtoonsByPopularityInfo(wb.id, wb.title, wb.author.name, wb.thumbnail, " +
+            "CASE WHEN wb.serializedStatus = 'BREAK' THEN 'BREAK' WHEN wb.serializedStatus = 'SERIALIZED' THEN 'SERIALIZED' ELSE null END) " +
+            "FROM Webtoon wb " +
+            "WHERE wb.serializedStatus = 'BREAK'" +
+            "ORDER BY wb.updatedAt DESC")
+    Slice<CompletedWebtoonsByPopularityInfo> findCompletedWebtoonsByRecentCompletion(Pageable pageRequest);
+
 }

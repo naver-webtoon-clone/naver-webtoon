@@ -193,4 +193,11 @@ public class WebtoonService {
         Slice<CompletedWebtoonsByPopularityInfo> completedWebtoonSlice = webtoonRepository.findCompletedWebtoonsByPopularityOrderByPopularityDesc(pageRequest);
         return CompletedWebtoonInfoSliceResponse.toResponse(completedWebtoonSlice);
     }
+    @Transactional(readOnly = true)
+    public CompletedWebtoonInfoSliceResponse getCompletedWebtoonsByRecentCompletion(int page){
+        int size = 10;
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Slice<CompletedWebtoonsByPopularityInfo> completedWebtoonSlice = webtoonRepository.findCompletedWebtoonsByRecentCompletion(pageRequest);
+        return CompletedWebtoonInfoSliceResponse.toResponse(completedWebtoonSlice);
+    }
 }

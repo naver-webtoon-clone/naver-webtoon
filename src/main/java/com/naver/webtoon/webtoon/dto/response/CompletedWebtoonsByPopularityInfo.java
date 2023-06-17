@@ -14,7 +14,7 @@ public class CompletedWebtoonsByPopularityInfo {
     private String author;
     private String thumbnail;
     private String isPause;
-//    private Float webtoonStarRating;
+//    private String webtoonStarRating;
 
     @Builder
     public CompletedWebtoonsByPopularityInfo(Long webtoonId,
@@ -22,7 +22,7 @@ public class CompletedWebtoonsByPopularityInfo {
                                              String author,
                                              String thumbnail,
                                              String isPause
-//                                              Float webtoonStarRating
+//                                             String webtoonStarRating
     ){
         this.webtoonId = webtoonId;
         this.title = title;
@@ -33,7 +33,7 @@ public class CompletedWebtoonsByPopularityInfo {
     }
     public static CompletedWebtoonsByPopularityInfo toList(Webtoon webtoon){
         //TODO: webtoonStarRating 내용 임의의 수 후에 수정 필요.
-//        Float webtoonStarRating = 0.0F;
+//        String webtoonStarRating = "0.0F";
         String isPause = String.valueOf((webtoon.getSerializedStatus() == BREAK));
 
 
