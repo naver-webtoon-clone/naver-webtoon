@@ -22,7 +22,7 @@ public class CompletedWebtoonsByPopularityInfo {
                                              String author,
                                              String thumbnail,
                                              String isPause
-//                                             Float webtoonStarRating
+//                                              Float webtoonStarRating
     ){
         this.webtoonId = webtoonId;
         this.title = title;
