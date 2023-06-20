@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.naver.webtoon.common.exception.ErrorCode.NOT_FOUND_AUTHOR;
 import static com.naver.webtoon.common.exception.ErrorCode.NOT_FOUND_HASH_TAG;
@@ -196,6 +197,15 @@ public class WebtoonService {
     }
     @Transactional(readOnly = true)
     public CompletedWebtoonInfoSliceResponse getCompletedWebtoonsByRecentCompletion(int page){
+        int size = 10;
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Slice<CompletedWebtoonsByPopularityInfo> completedWebtoonSlice = webtoonRepository.findCompletedWebtoonsByRecentCompletion(pageRequest);
+        return CompletedWebtoonInfoSliceResponse.toResponse(completedWebtoonSlice);
+    }
+
+    //TODO: 조회수 조회 기능 파악 후 repository 기능 수정 필요.
+    @Transactional(readOnly = true)
+    public CompletedWebtoonInfoSliceResponse getCompletedWebtoonsByViews(int page){
         int size = 10;
         PageRequest pageRequest = PageRequest.of(page, size);
         Slice<CompletedWebtoonsByPopularityInfo> completedWebtoonSlice = webtoonRepository.findCompletedWebtoonsByRecentCompletion(pageRequest);

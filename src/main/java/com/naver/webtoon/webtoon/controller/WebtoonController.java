@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
@@ -80,5 +82,11 @@ public class WebtoonController {
     public ResponseEntity<SuccessMessage<CompletedWebtoonInfoSliceResponse>> getCompletedWebtoonsByRecentCompletion(@PathVariable int page) {
         CompletedWebtoonInfoSliceResponse response = webtoonService.getCompletedWebtoonsByPopularity(page);
         return new ResponseEntity<>(new SuccessMessage<>("완결웹툰최근완결순조회성공",response), HttpStatus.OK);
+    }
+
+    @GetMapping("/webtoon/finished/total-views/page/{page}")
+    public ResponseEntity<SuccessMessage<CompletedWebtoonInfoSliceResponse>> getCompletedWebtoonsByViews(@PathVariable int page) {
+        CompletedWebtoonInfoSliceResponse response = webtoonService.getCompletedWebtoonsByViews(page);
+        return new ResponseEntity<>(new SuccessMessage<>("완결웹툰조회순조회성공",response), HttpStatus.OK);
     }
 }
