@@ -211,4 +211,13 @@ public class WebtoonService {
         Slice<CompletedWebtoonsByPopularityInfo> completedWebtoonSlice = webtoonRepository.findCompletedWebtoonsByRecentCompletion(pageRequest);
         return CompletedWebtoonInfoSliceResponse.toResponse(completedWebtoonSlice);
     }
+
+    //TODO: 별점 순 정렬 기능 구현 후 repository 기능 수정 필요.
+    @Transactional(readOnly = true)
+    public CompletedWebtoonInfoSliceResponse getCompletedWebtoonsByStarRating(int page){
+        int size = 10;
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Slice<CompletedWebtoonsByPopularityInfo> completedWebtoonSlice = webtoonRepository.findCompletedWebtoonsByRecentCompletion(pageRequest);
+        return CompletedWebtoonInfoSliceResponse.toResponse(completedWebtoonSlice);
+    }
 }
