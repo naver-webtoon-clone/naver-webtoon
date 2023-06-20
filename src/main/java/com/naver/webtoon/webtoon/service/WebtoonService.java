@@ -220,4 +220,9 @@ public class WebtoonService {
         Slice<CompletedWebtoonsByPopularityInfo> completedWebtoonSlice = webtoonRepository.findCompletedWebtoonsByRecentCompletion(pageRequest);
         return CompletedWebtoonInfoSliceResponse.toResponse(completedWebtoonSlice);
     }
+
+    @Transactional(readOnly = true)
+    public Integer getWebtoonCountByHashtag(String hashtag){
+        return webtoonRepository.countWebtoonsByHashtag(hashtag);
+    }
 }
