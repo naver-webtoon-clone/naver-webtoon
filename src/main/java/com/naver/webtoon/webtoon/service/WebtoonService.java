@@ -164,11 +164,12 @@ public class WebtoonService {
     }
 
     @Transactional(readOnly = true)
-    @Cacheable(value = "higestStars")
-    public WebtoonInfoListResponse getHigestStarsWebtoonsByDayOfWeek(String publishingDay){
+    public WebtoonInfoSliceResponse getHigestStarsWebtoonsByDayOfWeek(String publishingDay, int page){
+        int size = 10;
+        PageRequest pageRequest = PageRequest.of(page, size);
         DayOfTheWeek dayOfTheWeek = DayOfTheWeek.toEnum(publishingDay);
-        List<Webtoon> webtoons = webtoonRepository.findOnGoingWebtoonByDayOfTheWeek(dayOfTheWeek);
-        return WebtoonInfoListResponse.toResponse(webtoons);
+        Slice<Webtoon> webtoonSlice = webtoonRepository.findWebtoonsByRatingAndDayOfWeek(dayOfTheWeek, pageRequest);
+        return WebtoonInfoSliceResponse.toResponse(webtoonSlice);
     }
 
     //TODO: 30일동안 웹툰의 조회수가 많은 순서대로 내림차순으로 return해주는 메소드 repository에서 처리 필요.

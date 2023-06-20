@@ -3,10 +3,7 @@ package com.naver.webtoon.webtoon.controller;
 import com.naver.webtoon.common.response.SuccessMessage;
 import com.naver.webtoon.webtoon.dto.request.WebtoonRegisterRequest;
 import com.naver.webtoon.webtoon.dto.request.WebtoonUpdateRequest;
-import com.naver.webtoon.webtoon.dto.response.CompletedWebtoonInfoSliceResponse;
-import com.naver.webtoon.webtoon.dto.response.RealTimeNewWebtoonRankingInfoResponse;
-import com.naver.webtoon.webtoon.dto.response.RealTimePopularWebtoonInfoResponse;
-import com.naver.webtoon.webtoon.dto.response.WebtoonInfoListResponse;
+import com.naver.webtoon.webtoon.dto.response.*;
 import com.naver.webtoon.webtoon.service.WebtoonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -58,9 +55,9 @@ public class WebtoonController {
     }
 
     //TODO: 에피소드의 별점 테이블 생성 후 기능 수정 필요.
-    @GetMapping("/webtoon/{publishingDay}/highest-stars")
-    public ResponseEntity<SuccessMessage<WebtoonInfoListResponse>> getHigestStarsWebtoonsByDayOfWeek(@PathVariable String publishingDay) {
-        WebtoonInfoListResponse response = webtoonService.getHigestStarsWebtoonsByDayOfWeek(publishingDay);
+    @GetMapping("/webtoon/{publishingDay}/highest-stars/page/{page}")
+    public ResponseEntity<SuccessMessage<WebtoonInfoSliceResponse>> getHigestStarsWebtoonsByDayOfWeek(@PathVariable String publishingDay, int page) {
+        WebtoonInfoSliceResponse response = webtoonService.getHigestStarsWebtoonsByDayOfWeek(publishingDay, page);
         return new ResponseEntity<>(new SuccessMessage<>("요일별별점순웹툰조회",response), HttpStatus.OK);
     }
 
