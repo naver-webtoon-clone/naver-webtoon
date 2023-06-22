@@ -3,6 +3,7 @@ package com.naver.webtoon.comment.controller;
 import com.naver.webtoon.comment.dto.request.CommentUpdateRequest;
 import com.naver.webtoon.comment.dto.request.CommentWriteRequest;
 import com.naver.webtoon.comment.dto.response.BestCommentInfoListResponse;
+import com.naver.webtoon.comment.dto.response.CommentInfoSliceResponse;
 import com.naver.webtoon.comment.dto.response.ReCommentInfoSliceResponse;
 import com.naver.webtoon.comment.service.CommentService;
 import com.naver.webtoon.common.response.SuccessMessage;
@@ -90,8 +91,20 @@ public class CommentController {
     }
 
     @GetMapping("/episode/{episodeId}/comment/best/non-login")
-    public ResponseEntity<SuccessMessage<BestCommentInfoListResponse>> retrieveBestComment(@PathVariable Long episodeId) {
+    public ResponseEntity<SuccessMessage<BestCommentInfoListResponse>> retrieveBestCommentWhenNonLogin(@PathVariable Long episodeId) {
         BestCommentInfoListResponse response = commentService.retrieveBestCommentWhenNonLogin(episodeId);
         return new ResponseEntity<>(new SuccessMessage<>("베스트댓글조회성공", response), HttpStatus.OK);
+    }
+
+    @GetMapping("/episode/{episodeId}/comment/{page}/all/login")
+    public ResponseEntity<SuccessMessage<CommentInfoSliceResponse>> retrieveAllCommentWhenLogin(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long episodeId, @PathVariable int page) {
+        CommentInfoSliceResponse response = commentService.retrieveAllCommentWhenLogin(userDetails.getMember(), episodeId, page);
+        return new ResponseEntity<>(new SuccessMessage<>("댓글전체조회성공", response), HttpStatus.OK);
+    }
+
+    @GetMapping("/episode/{episodeId}/comment/{page}/all/non-login")
+    public ResponseEntity<SuccessMessage<CommentInfoSliceResponse>> retrieveAllCommentWhenNonLogin(@PathVariable Long episodeId, @PathVariable int page) {
+        CommentInfoSliceResponse response = commentService.retrieveAllCommentWhenNonLogin(episodeId, page);
+        return new ResponseEntity<>(new SuccessMessage<>("댓글전체조회성공", response), HttpStatus.OK);
     }
 }

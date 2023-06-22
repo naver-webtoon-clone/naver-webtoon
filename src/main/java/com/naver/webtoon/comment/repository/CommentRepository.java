@@ -59,4 +59,36 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     @Modifying
     @Query("UPDATE Comment comment SET comment.dislikeCount = comment.dislikeCount - 1 WHERE comment = :comment")
     void decreaseDislikeCountAtomically(@Param("comment") Comment comment);
+
+    @Query(value = "SELECT new com.naver.webtoon.comment.dto.response.CommentInfo(" +
+            "comment.id, " +
+            "comment.content, " +
+            "comment.member.username, " +
+            "CASE WHEN commentEmotion.type = 'LIKE' THEN 'LIKE' " +
+            "WHEN commentEmotion.type = 'DISLIKE' THEN 'DISLIKE' " +
+            "ELSE 'EMOTIONLESS' END, " +
+            "comment.likeCount, " +
+            "comment.dislikeCount, " +
+            "(SELECT COUNT(reComment) FROM ReComment reComment WHERE reComment.comment = comment), " +
+            "comment.createdAt) " +
+            "FROM Comment comment " +
+            "LEFT JOIN CommentEmotion commentEmotion ON commentEmotion.comment = comment AND commentEmotion.memberId = :currentMemberId " +
+            "WHERE comment.episode = :episode " +
+            "ORDER BY comment.createdAt")
+    Slice<CommentInfo> findSliceByEpisodeWhenLogin(Episode episode, Long currentMemberId, Pageable pageable);
+
+    @Query(value = "SELECT new com.naver.webtoon.comment.dto.response.CommentInfo(" +
+            "comment.id, " +
+            "comment.content, " +
+            "comment.member.username, " +
+            "'EMOTIONLESS', " +
+            "comment.likeCount, " +
+            "comment.dislikeCount, " +
+            "(SELECT COUNT(reComment) FROM ReComment reComment WHERE reComment.comment = comment), " +
+            "comment.createdAt) " +
+            "FROM Comment comment " +
+            "LEFT JOIN CommentEmotion commentEmotion ON commentEmotion.comment = comment " +
+            "WHERE comment.episode = :episode " +
+            "ORDER BY comment.createdAt")
+    Slice<CommentInfo> findSliceByEpisodeWhenNonLogin(Episode episode, Pageable pageable);
 }
