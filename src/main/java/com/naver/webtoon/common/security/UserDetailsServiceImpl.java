@@ -14,6 +14,7 @@ import static com.naver.webtoon.common.exception.ErrorCode.NOT_FOUND_MEMBER;
 @Service
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
+    
     private final MemberRepository memberRepository;
 
     @Override
