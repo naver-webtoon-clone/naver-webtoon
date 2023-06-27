@@ -85,7 +85,7 @@ public class CommentController {
     }
 
     @GetMapping("/episode/{episodeId}/comment/best/login")
-    public ResponseEntity<SuccessMessage<BestCommentInfoListResponse>> retrieveBestComment(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long episodeId) {
+    public ResponseEntity<SuccessMessage<BestCommentInfoListResponse>> retrieveBestCommentWhenLogin(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long episodeId) {
         BestCommentInfoListResponse response = commentService.retrieveBestCommentWhenLogin(userDetails.getMember(), episodeId);
         return new ResponseEntity<>(new SuccessMessage<>("베스트댓글조회성공", response), HttpStatus.OK);
     }
