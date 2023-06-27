@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import static com.naver.webtoon.common.exception.ErrorCode.DUPLICATE_INTERESTED_WEBTOON;
+import static com.naver.webtoon.common.exception.ErrorCode.NOT_FOUND_INTERESTED_WEBTOON;
 import static com.naver.webtoon.common.exception.ErrorCode.NOT_FOUND_WEBTOON;
 
 @Service
@@ -34,5 +35,16 @@ public class InterestedWebtoonService {
         if (interestedWebtoonRepository.existsByMemberAndWebtoon(member, webtoon)) {
             throw new WebtoonException(DUPLICATE_INTERESTED_WEBTOON);
         }
+    }
+
+    @Transactional
+    public void deleteInterestedWebtoon(Member currentMember, Long webtoonId) {
+        Webtoon webtoon = webtoonRepository.findById(webtoonId).orElseThrow(
+                () -> new WebtoonException(NOT_FOUND_WEBTOON));
+
+        InterestedWebtoon interestedWebtoon = interestedWebtoonRepository.findByMemberAndWebtoon(currentMember, webtoon).orElseThrow(
+                () -> new WebtoonException(NOT_FOUND_INTERESTED_WEBTOON));
+
+        interestedWebtoonRepository.delete(interestedWebtoon);
     }
 }
