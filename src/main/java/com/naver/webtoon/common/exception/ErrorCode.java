@@ -47,6 +47,9 @@ public enum ErrorCode {
     EXIST_DIFFERENT_COMMENT_EMOTION(HttpStatus.BAD_REQUEST, "COMMENT_EMOTION_003", "다른 댓글 감정이 존재합니다."),
 
     NOT_FOUND_RE_COMMENT(HttpStatus.NOT_FOUND, "RE_COMMENT_001", "찾을 수 없는 답글입니다."),
+
+    NOT_FOUND_INTERESTED_WEBTOON(HttpStatus.NOT_FOUND, "INTERESTED_WEBTOON_001", "찾을 수 없는 관심 웹툰입니다."),
+    DUPLICATE_INTERESTED_WEBTOON(HttpStatus.BAD_REQUEST, "INTERESTED_WEBTOON_002", "관심 웹툰은 중복될 수 없습니다."),
     ;
 
     private final HttpStatus httpStatus;
